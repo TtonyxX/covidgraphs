@@ -1,0 +1,27 @@
+{
+  "name": "covidgraphs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TtonyxX/covidgraphs.git"
+  },
+  "keywords": [
+    "Covid",
+    "coronavirus"
+  ],
+  "author": "Tony Xin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TtonyxX/covidgraphs/issues"
+  },
+  "homepage": "https://github.com/TtonyxX/covidgraphs#readme",
+  "devDependencies": {
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
