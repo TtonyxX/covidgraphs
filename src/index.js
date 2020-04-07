@@ -66,7 +66,7 @@ function createGraph(graphData) {
         newDate(0)
       ],
       datasets: [{
-        label: 'Dataset with point data',
+        label: 'Cases',
         backgroundColor: color("green").alpha(0.5).rgbString(),
         borderColor: "green",
         fill: false,
@@ -93,32 +93,19 @@ function createGraph(graphData) {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Number of cases'
+            labelString: 'Number of Cases'
           }
         }]
       },
       legend: {
         display: false
-      }
+      },
+      hover: {
+        mode: 'nearest',
+        intersect: true
+      },
     }
   };
   window.myLine = new Chart(ctx, config);
 }
 
-function randomScalingFactor() {
-  return Math.floor(Math.random() * 100)
-}
-    
-function component() {
-    const element = document.createElement('div');
-
-    element.innerHTML = _.join(['Hello', 'webpack'], ' ');
-
-    return element;
-}
-
-$(document).ready(function(){
-  $('.tabs').tabs();
-});
-
-document.body.appendChild(component());
