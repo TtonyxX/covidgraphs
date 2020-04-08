@@ -33,11 +33,18 @@ $.ajax({
     casesData = parseData(result, 2);
     deathsData = parseData(result, 3);
     testedData = parseData(result, 1);
-    window.casesChart = createGraph(casesctx, casesData);
-    window.casesChart = createGraph(deathsctx, deathsData);
-    window.casesChart = createGraph(testedctx, testedData);
+    window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
+    window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
+    window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
+    fillTable(casesData, deathsData, testedData);
   }
 });
+
+function fillTable(cases, deaths, tested) {
+  for(let i=cases.length-1; i>=0; i--) {
+    $("#data-body").html($("#data-body").html() + "<tr><td>" + cases[i].x + "</td><td>" + cases[i].y + "</td><td>" + tested[i].y + "</td><td>" + deaths[i].y + "</td></tr>");
+  }
+}
 
 function parseData(result, index) {
   const data = result.split("\n");
@@ -61,7 +68,7 @@ function parseData(result, index) {
   return data;
 }
 
-function createGraph(canvas, graphData) {
+function createGraph(canvas, graphData, name, linecolor) {
   var color = Chart.helpers.color;
   var colorFont = "#adadad";
   var config = {
@@ -77,9 +84,9 @@ function createGraph(canvas, graphData) {
         newDate(0)
       ],
       datasets: [{
-        label: 'Cases',
-        backgroundColor: color("#ff9498").alpha(0.5).rgbString(),
-        borderColor: "#ff9498",
+        label: name,
+        backgroundColor: color(linecolor).alpha(0.5).rgbString(),
+        borderColor: linecolor,
         fill: false,
         data: graphData,
       }]
@@ -111,7 +118,7 @@ function createGraph(canvas, graphData) {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Number of Cases',
+            labelString: 'Number of ' + name,
             fontColor: colorFont
           },
           gridLines: {

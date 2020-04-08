@@ -19,22 +19,56 @@
       body {
         color: white;
       }
+
+      .chart-container {
+        margin: 50px 0px;
+      }
+
+      table.highlight>tbody>tr:hover {
+        background-color: #4f4f4f !important;
+      }
     </style>
 
   </head>
 
   <body style="background-color: #3b3b3b;">
 
-    <div align="center">
-      <h1 id="chart-title"></h1>
-      <div style="width: 90%; margin-bottom: 20px;">
-          <canvas id="casesChart" width="400" height="160"></canvas>
+    <div align="center" style="padding-bottom: 20px;">
+      <div class="chart-container">
+        <h1 id="title"></h1>
+        <h3 id="title-cases">Cases Over Time</h3>
+        <div style="width: 90%; margin-bottom: 20px;">
+            <canvas id="casesChart" width="400" height="160"></canvas>
+        </div>
       </div>
-      <div style="width: 90%; margin-bottom: 20px;">
-        <canvas id="deathsChart" width="400" height="160"></canvas>
+      <div class="chart-container">
+        <h3 id="title-deaths">Deaths Over Time</h3>
+        <div style="width: 90%; margin-bottom: 20px;">
+          <canvas id="deathsChart" width="400" height="160"></canvas>
+        </div>
       </div>
-      <div style="width: 90%; margin-bottom: 20px;">
-        <canvas id="testedChart" width="400" height="160"></canvas>
+      <div class="chart-container">
+        <h3 id="title-tested">Tested Over Time</h3>
+        <div style="width: 90%; margin-bottom: 20px;">
+          <canvas id="testedChart" width="400" height="160"></canvas>
+        </div>
+      </div>
+      <div class="chart-container">
+        <h3 id="title-tested">Data</h3>
+        <div style="width: 90%; margin-bottom: 20px;">
+          <table class="highlight">
+            <thead>
+              <tr>
+                  <th>Date</th>
+                  <th>Tested</th>
+                  <th>Positive</th>
+                  <th>Deaths</th>
+              </tr>
+            </thead>
+            <tbody id="data-body">
+            </tbody>
+          </table>
+        </div>
       </div>
       <button id="share-btn" class="btn waves-effect waves-light white black-text">Share</button>
       <div id="share-options" class="a2a_kit a2a_kit_size_32 a2a_default_style" data-a2a-icon-color="white,#3b3b3b" style="display: none;">
@@ -57,7 +91,10 @@
     <script>
       const urlParams = new URLSearchParams(window.location.search);
       const myParam = urlParams.get('state');
-      $("#chart-title").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>" + " Cases Over Time");
+      $("#title").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>");
+      // $("#title-cases").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>" + " Cases Over Time");
+      // $("#title-deaths").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>" + " Deaths Over Time");
+      // $("#title-tested").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>" + " Tested Over Time");
 
       $("#share-btn").click(() => {
         $("#share-btn").fadeOut(function() {
