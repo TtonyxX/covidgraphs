@@ -37,6 +37,7 @@ $.ajax({
     window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
     window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
     fillTable(casesData, deathsData, testedData);
+    $("#display-items").fadeIn();
   }
 });
 

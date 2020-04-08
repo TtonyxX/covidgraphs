@@ -27,6 +27,10 @@
       table.highlight>tbody>tr:hover {
         background-color: #4f4f4f !important;
       }
+
+      #display-items {
+        display: none;
+      }
     </style>
 
   </head>
@@ -34,8 +38,9 @@
   <body style="background-color: #3b3b3b;">
 
     <div align="center" style="padding-bottom: 20px;">
-      <div class="chart-container">
-        <h1 id="title"></h1>
+      <h1 id="title"></h1>
+      <div id="display-items">
+      <div class="chart-container" style="margin-top: 0px;">
         <h3 id="title-cases">Cases Over Time</h3>
         <div style="width: 90%; margin-bottom: 20px;">
             <canvas id="casesChart" width="400" height="160"></canvas>
@@ -78,6 +83,7 @@
         <a class="a2a_button_facebook_messenger"></a>
         <a class="a2a_button_copy_link"></a>
         <a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+      </div>
       </div>
     </div>
     
