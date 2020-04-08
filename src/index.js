@@ -2,13 +2,18 @@ import _ from 'lodash';
 import * as moment from 'moment';
 var Chart = require('chart.js');
 
+Chart.defaults.global.defaultFontFamily = 'Roboto';
+
 jQuery.ajaxPrefilter(function(options) {
   if (options.crossDomain && jQuery.support.cors) {
       options.url = 'https://cors-anywhere.herokuapp.com/' + options.url;
   }
 });
 
-var ctx = document.getElementById('myChart').getContext('2d');
+var casesctx = document.getElementById('casesChart').getContext('2d');
+var deathsctx = document.getElementById('deathsChart').getContext('2d');
+var testedctx = document.getElementById('testedChart').getContext('2d');
+var casesData, deathsData, testedData;
 var timeFormat = 'MM/DD/YYYY';
 
 function newDate(days) {
@@ -25,11 +30,16 @@ const myParam = urlParams.get('state');
 $.ajax({
   url: "http://coronavirusapi.com/getTimeSeries/" + myParam, 
   success: function(result){
-    createGraph(parseData(result));
+    casesData = parseData(result, 2);
+    deathsData = parseData(result, 3);
+    testedData = parseData(result, 1);
+    window.casesChart = createGraph(casesctx, casesData);
+    window.casesChart = createGraph(deathsctx, deathsData);
+    window.casesChart = createGraph(testedctx, testedData);
   }
 });
 
-function parseData(result) {
+function parseData(result, index) {
   const data = result.split("\n");
   var prevDate = newDateString(0);
   let i;
@@ -43,7 +53,7 @@ function parseData(result) {
     }
     data[i] = {
       x: data[i][0],
-      y: data[i][2]
+      y: data[i][index]
     }
     prevDate = data[i].x;
   }
@@ -51,8 +61,9 @@ function parseData(result) {
   return data;
 }
 
-function createGraph(graphData) {
+function createGraph(canvas, graphData) {
   var color = Chart.helpers.color;
+  var colorFont = "#adadad";
   var config = {
     type: 'line',
     data: {
@@ -67,8 +78,8 @@ function createGraph(graphData) {
       ],
       datasets: [{
         label: 'Cases',
-        backgroundColor: color("green").alpha(0.5).rgbString(),
-        borderColor: "green",
+        backgroundColor: color("#ff9498").alpha(0.5).rgbString(),
+        borderColor: "#ff9498",
         fill: false,
         data: graphData,
       }]
@@ -87,13 +98,27 @@ function createGraph(graphData) {
           },
           scaleLabel: {
             display: true,
-            labelString: 'Date'
+            labelString: 'Date',
+            fontColor: colorFont
+          },
+          gridLines: {
+            display: true
+          },
+          ticks: {
+            fontColor: colorFont
           }
         }],
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Number of Cases'
+            labelString: 'Number of Cases',
+            fontColor: colorFont
+          },
+          gridLines: {
+            display: true
+          },
+          ticks: {
+            fontColor: colorFont
           }
         }]
       },
@@ -106,6 +131,9 @@ function createGraph(graphData) {
       },
     }
   };
-  window.myLine = new Chart(ctx, config);
+  return new Chart(canvas, config);
 }
 
+function randomScalingFactor() {
+  return Math.floor(Math.random() * 30);
+}

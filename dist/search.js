@@ -33,6 +33,9 @@ function autocomplete(inp, arr) {
                 /*close the list of autocompleted values,
                 (or any other open lists of autocompleted values:*/
                 closeAllLists();
+                var event = jQuery.Event( "keyup" );
+                event.keyCode = 13;
+                $("#state").trigger(event);
             });
             a.appendChild(b);
           }
