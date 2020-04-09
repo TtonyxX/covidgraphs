@@ -220,6 +220,8 @@ function getVal(search) {
     return statesAb[statesLower.indexOf(search.toLowerCase())];
   } else if(countries.indexOf(search) >= 0) {
     return search;
+  } else {
+    return "invalid";
   }
 }
 

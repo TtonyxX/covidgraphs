@@ -26,8 +26,7 @@ function newDateString(sec) {
 
 const urlParams = new URLSearchParams(window.location.search);
 const myParam = urlParams.get('search');
-
-if(isState[myParam]) {
+if(isState(myParam)) {
   $.ajax({
     url: "http://coronavirusapi.com/getTimeSeries/" + myParam, 
     success: function(result){

@@ -105,11 +105,13 @@
 
       $("#state").on('keyup', function (e) {
           if (e.keyCode === 13) {
-              if(window.location.hostname == "localhost") {
-                window.location.href = "http://localhost:8080/chart.html?search=" + getVal($("#state").val());
-              } else {
-                window.location.href = "https://covidgraphs-b7c17.firebaseapp.com/chart.html?search=" + getVal($("#state").val());
-              }
+              if(getVal($("#state").val()) != "invalid") {
+                if(window.location.hostname == "localhost") {
+                  window.location.href = "http://localhost:8080/chart.html?search=" + getVal($("#state").val());
+                } else {
+                  window.location.href = "https://covidgraphs-b7c17.firebaseapp.com/chart.html?search=" + getVal($("#state").val());
+                }
+              } 
           }
       });
 
