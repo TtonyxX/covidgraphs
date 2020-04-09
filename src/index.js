@@ -142,6 +142,9 @@ function createGraph(canvas, graphData, name, linecolor) {
   return new Chart(canvas, config);
 }
 
-function randomScalingFactor() {
-  return Math.floor(Math.random() * 30);
-}
+$.ajax({
+  url: "https://pomber.github.io/covid19/timeseries.json", 
+  success: function(result){
+    alert(result['Canada'][0].date);
+  }
+});
