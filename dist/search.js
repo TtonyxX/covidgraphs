@@ -215,6 +215,30 @@ function autocomplete(inp, arr) {
                       "WV",
                       "WY"]
 
-function getAb(state) {
-    return statesAb[statesLower.indexOf(state.toLowerCase())];
+function getVal(search) {
+  if(isState(search)) {
+    return statesAb[statesLower.indexOf(search.toLowerCase())];
+  } else if(countries.indexOf(search) >= 0) {
+    return search;
+  }
 }
+
+function isState(state) {
+  if(statesLower.indexOf(state.toLowerCase()) >= 0 || statesAb.indexOf(state) >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var countries = [];
+
+$.ajax({
+  url: "https://pomber.github.io/covid19/timeseries.json", 
+  success: function(result){
+    countries = Object.keys(result);
+    var countriesStates = countries.concat(states);
+    autocomplete(document.getElementById("state"), countriesStates);
+  }
+});
+

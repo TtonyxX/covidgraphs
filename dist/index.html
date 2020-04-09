@@ -56,13 +56,29 @@
         font-weight: bold;
         margin-top: 0px;
       }
+
+      #search-input {
+        width: 400px;
+        margin-top: 20px;
+      }
       
       @media only screen and (max-width: 600px) {
 
         #title-text {
-          font-size: 80px;
+          font-size: 70px;
         }
 
+        #welcome-text {
+          font-size: 50px;
+        }
+
+        #search-input {
+          width: 300px;
+        }
+
+        #under-text {
+          font-size: 20px;
+        }
       }
 
     </style>
@@ -72,12 +88,12 @@
   <body style="background-color: #3b3b3b;">
 
     <div align="center" style="color: #ff9498; margin-top: 20vh;">
-      <h1>Welcome to</h1>
+      <h1 id="welcome-text">Welcome to</h1>
       <h1 id="title-text">COVID-19 GRAPHS</h1>
-      <h5>Start by searching for a state</h5>
-      <div class="input-field" style="width: 310px; margin-top: 20px;" autocomplete="off">
+      <h5 id="under-text">Start by searching for a country or state</h5>
+      <div id="search-input" class="input-field" autocomplete="off">
         <input id="state" type="text" class="validate autocomplete" autocomplete="off" style="font-size: 30px; color: white; height: 50px;">
-        <label for="state" style="font-size: 20px;">State</label>
+        <label for="state" style="font-size: 20px;">Country/State</label>
       </div>
     </div>
 
@@ -87,14 +103,12 @@
     <script src="search.js"></script>
     <script>
 
-      autocomplete(document.getElementById("state"), states);
-
       $("#state").on('keyup', function (e) {
           if (e.keyCode === 13) {
               if(window.location.hostname == "localhost") {
-                window.location.href = "http://localhost:8080/chart.html?state=" + getAb($("#state").val());
+                window.location.href = "http://localhost:8080/chart.html?search=" + getVal($("#state").val());
               } else {
-                window.location.href = "https://covidgraphs-b7c17.firebaseapp.com/chart.html?state=" + getAb($("#state").val());
+                window.location.href = "https://covidgraphs-b7c17.firebaseapp.com/chart.html?search=" + getVal($("#state").val());
               }
           }
       });

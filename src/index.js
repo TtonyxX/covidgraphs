@@ -25,21 +25,39 @@ function newDateString(sec) {
 }
 
 const urlParams = new URLSearchParams(window.location.search);
-const myParam = urlParams.get('state');
+const myParam = urlParams.get('search');
 
-$.ajax({
-  url: "http://coronavirusapi.com/getTimeSeries/" + myParam, 
-  success: function(result){
-    casesData = parseData(result, 2);
-    deathsData = parseData(result, 3);
-    testedData = parseData(result, 1);
-    window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
-    window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
-    window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
-    fillTable(casesData, deathsData, testedData);
-    $("#display-items").fadeIn();
-  }
-});
+if(isState[myParam]) {
+  $.ajax({
+    url: "http://coronavirusapi.com/getTimeSeries/" + myParam, 
+    success: function(result){
+      casesData = parseData(result, 2);
+      deathsData = parseData(result, 3);
+      testedData = parseData(result, 1);
+      window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
+      window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
+      window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
+      fillTable(casesData, deathsData, testedData);
+      $("#display-items").fadeIn();
+    }
+  });
+} else {
+  $.ajax({
+    url: "https://pomber.github.io/covid19/timeseries.json", 
+    success: function(result){
+      countries = Object.keys(result);
+      casesData = parseDataCountry(result[myParam], "confirmed");
+      deathsData = parseDataCountry(result[myParam], "deaths");
+      testedData = parseDataCountry(result[myParam], "recovered");
+      window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
+      window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
+      window.recoveredChart = createGraph(testedctx, testedData, "Recovered", "#4fc3f7");
+      fillTable(casesData, testedData, deathsData);
+      $("#display-items").fadeIn();
+    }
+  });
+}
+
 
 function fillTable(cases, deaths, tested) {
   for(let i=cases.length-1; i>=0; i--) {
@@ -66,6 +84,19 @@ function parseData(result, index) {
     prevDate = data[i].x;
   }
   data.shift()
+  return data;
+}
+
+function parseDataCountry(result, prop) {
+  var data = [];
+  for(let i=0; i<result.length; i++) {
+    var dateArray = result[i].date.split("-");
+    var date = new Date(parseInt(dateArray[0]), parseInt(dateArray[1])-1, parseInt(dateArray[2]));
+    data.push({
+      x: date.toLocaleDateString(),
+      y: result[i][prop]
+    });
+  }
   return data;
 }
 
@@ -142,9 +173,3 @@ function createGraph(canvas, graphData, name, linecolor) {
   return new Chart(canvas, config);
 }
 
-$.ajax({
-  url: "https://pomber.github.io/covid19/timeseries.json", 
-  success: function(result){
-    alert(result['Canada'][0].date);
-  }
-});

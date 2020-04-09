@@ -76,9 +76,9 @@
             <thead>
               <tr>
                   <th>Date</th>
-                  <th>Tested</th>
-                  <th>Positive</th>
-                  <th>Deaths</th>
+                  <th id="tested-table">Tested</th>
+                  <th id="positive-table">Positive</th>
+                  <th id="deaths-table">Deaths</th>
               </tr>
             </thead>
             <tbody id="data-body">
@@ -107,8 +107,17 @@
     <script async src="https://static.addtoany.com/menu/page.js"></script>
     <script>
       const urlParams = new URLSearchParams(window.location.search);
-      const myParam = urlParams.get('state');
-      $("#title").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>");
+      const myParam = urlParams.get('search');
+      var isState = isState(myParam);
+      if(isState) {
+        $("#title").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>");
+      } else {
+        $("#title").html("<strong>" + myParam + "</strong>");
+        $("#title-tested").html("Recovered Over Time");
+        $("#tested-table").html("Positive");
+        $("#positive-table").html("Deaths");
+        $("#deaths-table").html("Recovered");
+      }
       
       $("#share-btn").click(() => {
         $("#share-btn").fadeOut(function() {
