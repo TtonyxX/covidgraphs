@@ -35,7 +35,7 @@ if(isState(myParam)) {
       testedData = parseData(result, 1);
       window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
       window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
-      window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
+      window.testedChart = createGraph(testedctx, testedData, "Tested", "#4caf50");
       fillTable(casesData, deathsData, testedData);
       $("#display-items").fadeIn();
     }
@@ -50,7 +50,7 @@ if(isState(myParam)) {
       testedData = parseDataCountry(result[myParam], "recovered");
       window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
       window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
-      window.recoveredChart = createGraph(testedctx, testedData, "Recovered", "#4fc3f7");
+      window.recoveredChart = createGraph(testedctx, testedData, "Recovered", "#a5d6a7");
       fillTable(casesData, testedData, deathsData);
       $("#display-items").fadeIn();
     }
