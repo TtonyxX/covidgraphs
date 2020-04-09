@@ -75,7 +75,11 @@
 
       $("#state").on('keyup', function (e) {
           if (e.keyCode === 13) {
-              window.location.href = "http://localhost:8080/chart.html?state=" + getAb($("#state").val());
+              if(window.location.hostname == "localhost") {
+                window.location.href = "http://localhost:8080/chart.html?state=" + getAb($("#state").val());
+              } else {
+                window.location.href = "https://covidgraphs-b7c17.firebaseapp.com/chart.html?state=" + getAb($("#state").val());
+              }
           }
       });
 
