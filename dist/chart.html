@@ -40,6 +40,20 @@
         top: 15px;
         width: 60px;
       }
+
+      @media only screen and (max-width: 600px) {
+
+        #back-btn {
+          left: 5px;
+          top: 5px;
+          width: 50px;
+        }
+
+        .graph-title {
+          font-size: 30px;
+        }
+
+      }
     </style>
 
   </head>
@@ -52,25 +66,25 @@
       <h1 id="title"></h1>
       <div id="display-items">
       <div class="chart-container" style="margin-top: 0px;">
-        <h3 id="title-cases">Cases Over Time</h3>
+        <h3 id="title-cases" class="graph-title">Cases Over Time</h3>
         <div style="width: 90%; margin-bottom: 20px;">
             <canvas id="casesChart" width="400" height="160"></canvas>
         </div>
       </div>
       <div class="chart-container">
-        <h3 id="title-deaths">Deaths Over Time</h3>
+        <h3 id="title-deaths" class="graph-title">Deaths Over Time</h3>
         <div style="width: 90%; margin-bottom: 20px;">
           <canvas id="deathsChart" width="400" height="160"></canvas>
         </div>
       </div>
       <div class="chart-container">
-        <h3 id="title-tested">Tested Over Time</h3>
+        <h3 id="title-tested" class="graph-title">Tested Over Time</h3>
         <div style="width: 90%; margin-bottom: 20px;">
           <canvas id="testedChart" width="400" height="160"></canvas>
         </div>
       </div>
       <div class="chart-container">
-        <h3 id="title-tested">Data</h3>
+        <h3 id="title-data" class="graph-title">Data</h3>
         <div style="width: 90%; margin-bottom: 20px;">
           <table class="highlight">
             <thead>
