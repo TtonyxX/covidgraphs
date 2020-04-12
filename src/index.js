@@ -153,6 +153,7 @@ $.ajax({
   url: "https://pomber.github.io/covid19/timeseries.json", 
   success: function(result){
     countries = Object.keys(result);
+    loadPage(true);
   }
 });
 
@@ -174,8 +175,6 @@ function newDateString(sec) {
 
 var yType = 'linear';
 var invalidPage = false;
-
-loadPage(true);
 
 function loadPage(linear) {
   yType = linear ? 'linear' : 'logarithmic';
