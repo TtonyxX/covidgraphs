@@ -10,6 +10,154 @@ jQuery.ajaxPrefilter(function(options) {
   }
 });
 
+// search.js
+
+let states = ["Alaska",
+"Alabama",
+"Arkansas",
+"American Samoa",
+"Arizona",
+"California",
+"Colorado",
+"Connecticut",
+"District of Columbia",
+"Delaware",
+"Florida",
+"Georgia",
+"Guam",
+"Hawaii",
+"Iowa",
+"Idaho",
+"Illinois",
+"Indiana",
+"Kansas",
+"Kentucky",
+"Louisiana",
+"Massachusetts",
+"Maryland",
+"Maine",
+"Michigan",
+"Minnesota",
+"Missouri",
+"Mississippi",
+"Montana",
+"North Carolina",
+"North Dakota",
+"Nebraska",
+"New Hampshire",
+"New Jersey",
+"New Mexico",
+"Nevada",
+"New York",
+"Ohio",
+"Oklahoma",
+"Oregon",
+"Pennsylvania",
+"Puerto Rico",
+"Rhode Island",
+"South Carolina",
+"South Dakota",
+"Tennessee",
+"Texas",
+"Utah",
+"Virginia",
+"Virgin Islands",
+"Vermont",
+"Washington",
+"Wisconsin",
+"West Virginia",
+"Wyoming"]
+
+let statesLower = [];
+for(let i=0; i<states.length; i++) {
+    statesLower.push(states[i].toLowerCase());
+}
+
+let statesAb = [ "AK",
+                    "AL",
+                    "AR",
+                    "AS",
+                    "AZ",
+                    "CA",
+                    "CO",
+                    "CT",
+                    "DC",
+                    "DE",
+                    "FL",
+                    "GA",
+                    "GU",
+                    "HI",
+                    "IA",
+                    "ID",
+                    "IL",
+                    "IN",
+                    "KS",
+                    "KY",
+                    "LA",
+                    "MA",
+                    "MD",
+                    "ME",
+                    "MI",
+                    "MN",
+                    "MO",
+                    "MS",
+                    "MT",
+                    "NC",
+                    "ND",
+                    "NE",
+                    "NH",
+                    "NJ",
+                    "NM",
+                    "NV",
+                    "NY",
+                    "OH",
+                    "OK",
+                    "OR",
+                    "PA",
+                    "PR",
+                    "RI",
+                    "SC",
+                    "SD",
+                    "TN",
+                    "TX",
+                    "UT",
+                    "VA",
+                    "VI",
+                    "VT",
+                    "WA",
+                    "WI",
+                    "WV",
+                    "WY"]
+
+function getVal(search) {
+  if(isState(search)) {
+    return statesAb[statesLower.indexOf(search.toLowerCase())];
+  } else if(countries.indexOf(search) >= 0) {
+    return search;
+  } else {
+    return "invalid";
+  }
+}
+
+function isState(state) {
+  if(statesLower.indexOf(state.toLowerCase()) >= 0 || statesAb.indexOf(state) >= 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+var countries = [];
+
+$.ajax({
+  url: "https://pomber.github.io/covid19/timeseries.json", 
+  success: function(result){
+    countries = Object.keys(result);
+  }
+});
+
+// Main App
+
 var casesctx = document.getElementById('casesChart').getContext('2d');
 var deathsctx = document.getElementById('deathsChart').getContext('2d');
 var testedctx = document.getElementById('testedChart').getContext('2d');
@@ -24,37 +172,49 @@ function newDateString(sec) {
   return moment().subtract(sec, 's').format(timeFormat);
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-const myParam = urlParams.get('search');
-if(isState(myParam)) {
-  $.ajax({
-    url: "http://coronavirusapi.com/getTimeSeries/" + myParam, 
-    success: function(result){
-      casesData = parseData(result, 2);
-      deathsData = parseData(result, 3);
-      testedData = parseData(result, 1);
-      window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
-      window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
-      window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
-      fillTable(casesData, deathsData, testedData);
-      $("#display-items").fadeIn();
-    }
-  });
-} else {
-  $.ajax({
-    url: "https://pomber.github.io/covid19/timeseries.json", 
-    success: function(result){
-      countries = Object.keys(result);
-      casesData = parseDataCountry(result[myParam], "confirmed");
-      deathsData = parseDataCountry(result[myParam], "deaths");
-      testedData = parseDataCountry(result[myParam], "recovered");
-      window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
-      window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
-      window.recoveredChart = createGraph(testedctx, testedData, "Recovered", "#4caf50");
-      fillTable(deathsData, testedData, casesData);
-      $("#display-items").fadeIn();
-    }
-  });
+var yType = 'linear';
+var invalidPage = false;
+
+loadPage(true);
+
+function loadPage(linear) {
+  yType = linear ? 'linear' : 'logarithmic';
+  const urlParams = new URLSearchParams(window.location.search);
+  const myParam = urlParams.get('search');
+  if(getVal(myParam) == 'invalid') {
+    invalidPage = true;
+    return;
+  }
+  if(isState(myParam)) {
+    $.ajax({
+      url: "http://coronavirusapi.com/getTimeSeries/" + myParam, 
+      success: function(result){
+        casesData = parseData(result, 2);
+        deathsData = parseData(result, 3);
+        testedData = parseData(result, 1);
+        window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
+        window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
+        window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
+        fillTable(casesData, deathsData, testedData);
+        $("#display-items").fadeIn();
+      }
+    });
+  } else {
+    $.ajax({
+      url: "https://pomber.github.io/covid19/timeseries.json", 
+      success: function(result){
+        countries = Object.keys(result);
+        casesData = parseDataCountry(result[myParam], "confirmed");
+        deathsData = parseDataCountry(result[myParam], "deaths");
+        testedData = parseDataCountry(result[myParam], "recovered");
+        window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
+        window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
+        window.recoveredChart = createGraph(testedctx, testedData, "Recovered", "#4caf50");
+        fillTable(deathsData, testedData, casesData);
+        $("#display-items").fadeIn();
+      }
+    });
+  }
 }
 
 
@@ -147,6 +307,7 @@ function createGraph(canvas, graphData, name, linecolor) {
           }
         }],
         yAxes: [{
+					type: yType,
           scaleLabel: {
             display: true,
             labelString: 'Number of ' + name,
@@ -172,3 +333,47 @@ function createGraph(canvas, graphData, name, linecolor) {
   return new Chart(canvas, config);
 }
 
+// Inside page js
+
+if(window.location.pathname.includes("chart")) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const myParam = urlParams.get('search');
+  if(isState(myParam)) {
+    $("#title").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>");
+  } else if(invalidPage) {
+    $("#title").html("<strong>" + myParam + "</strong> <span style='color: #ff5252;'>is not a valid query</span>");
+    $("#log-btn").hide();
+  } else {
+    $("#title").html("<strong>" + myParam + "</strong>");
+    $("#title-tested").html("Recovered Over Time");
+    $("#tested-table").html("Positive");
+    $("#positive-table").html("Deaths");
+    $("#deaths-table").html("Recovered");
+  }
+  
+  $("#share-btn").click(() => {
+    $("#share-btn").fadeOut(function() {
+      $("#share-options").fadeIn().css("display", "inline-block");
+    });
+  })
+
+  $("#back-btn").click(() => {
+    if(window.location.hostname == "localhost") {
+      window.location.href = "http://localhost:8080";
+    } else if(window.location.hostname == "covidgraphs-b7c17.firebaseapp.com") {
+      window.location.href = "https://covidgraphs-b7c17.firebaseapp.com";
+    } else {
+      window.location.href = "http://covidgraphs.ga";
+    }
+  });
+
+  $("#log-btn").click(() => {
+    if(yType=='linear') {
+      loadPage(false);
+      $("#log-btn").html('Logarithmic');
+    } else {
+      loadPage(true);
+      $("#log-btn").html('Linear');
+    }
+  });
+} 

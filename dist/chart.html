@@ -40,8 +40,15 @@
       #back-btn {
         position: absolute;
         left: 10px;
-        top: 15px;
+        top: 10px;
         width: 60px;
+      }
+
+      #log-btn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        min-width: 125px;
       }
 
       @media only screen and (max-width: 600px) {
@@ -49,11 +56,19 @@
         #back-btn {
           left: 5px;
           top: 5px;
-          width: 50px;
+        }
+
+        #log-btn {
+          right: 5px;
+          top: 5px;
         }
 
         .graph-title {
           font-size: 30px;
+        }
+
+        #title {
+          margin-top: 60px;
         }
 
       }
@@ -63,7 +78,8 @@
 
   <body style="background-color: #3b3b3b;">
 
-    <button id="back-btn" class="btn waves-effect waves-light white black-text "><i class="large material-icons">arrow_back</i></button>
+    <button id="back-btn" class="btn waves-effect waves-light white black-text"><i class="large material-icons">arrow_back</i></button>
+    <button id="log-btn" class="btn waves-effect waves-light black-text grey lighten-1">Linear</button>
 
     <div align="center" style="padding-bottom: 20px;">
       <h1 id="title"></h1>
@@ -119,38 +135,7 @@
     <!--JavaScript at end of body for optimized loading-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="search.js"></script>
     <script src="main.js"></script>
     <script async src="https://static.addtoany.com/menu/page.js"></script>
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      const myParam = urlParams.get('search');
-      var isState = isState(myParam);
-      if(isState) {
-        $("#title").html("<strong>" + states[statesAb.indexOf(myParam.toUpperCase())] + "</strong>");
-      } else {
-        $("#title").html("<strong>" + myParam + "</strong>");
-        $("#title-tested").html("Recovered Over Time");
-        $("#tested-table").html("Positive");
-        $("#positive-table").html("Deaths");
-        $("#deaths-table").html("Recovered");
-      }
-      
-      $("#share-btn").click(() => {
-        $("#share-btn").fadeOut(function() {
-          $("#share-options").fadeIn().css("display", "inline-block");
-        });
-      })
-
-      $("#back-btn").click(() => {
-        if(window.location.hostname == "localhost") {
-          window.location.href = "http://localhost:8080";
-        } else if(window.location.hostname == "covidgraphs-b7c17.firebaseapp.com") {
-          window.location.href = "https://covidgraphs-b7c17.firebaseapp.com";
-        } else {
-          window.location.href = "http://covidgraphs.ga";
-        }
-      });
-    </script>
   </body>
 </html>
