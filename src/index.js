@@ -218,6 +218,7 @@ function loadPage(linear) {
 
 
 function fillTable(cases, deaths, tested) {
+  $("#data-body").html("");
   for(let i=cases.length-1; i>=0; i--) {
     $("#data-body").html($("#data-body").html() + "<tr><td>" + cases[i].x + "</td><td>" + tested[i].y + "</td><td>" + cases[i].y + "</td><td>" + deaths[i].y + "</td></tr>");
   }
