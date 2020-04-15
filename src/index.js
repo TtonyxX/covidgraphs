@@ -362,8 +362,10 @@ if(window.location.pathname.includes("chart")) {
       window.location.href = "http://localhost:8080";
     } else if(window.location.hostname == "covidgraphs-b7c17.firebaseapp.com") {
       window.location.href = "https://covidgraphs-b7c17.firebaseapp.com";
-    } else {
+    } else if(window.location.hostname == "covidgraphs.ga") {
       window.location.href = "http://covidgraphs.ga";
+    } else {
+      window.location.href = "https://covidgraphs.ml";
     }
   });
 

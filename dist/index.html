@@ -131,8 +131,10 @@
               window.location.href = "http://localhost:8080/chart.html?search=" + getVal($("#state").val());
             } else if(window.location.hostname == "covidgraphs-b7c17.firebaseapp.com") {
               window.location.href = "https://covidgraphs-b7c17.firebaseapp.com/chart?search=" + getVal($("#state").val());
-            } else {
+            } else if(window.location.hostname == "covidgraphs.ga"){
               window.location.href = "http://covidgraphs.ga/chart?search=" + getVal($("#state").val());
+            } else {
+              window.location.href = "https://covidgraphs.ml/chart?search=" + getVal($("#state").val());
             }
           } 
         }
