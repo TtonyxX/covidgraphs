@@ -194,7 +194,7 @@ function loadPage(linear) {
         window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
         window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
         window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
-        fillTable(casesData, deathsData, testedData);
+        fillTable(casesData, deathsData, testedData, false);
         $("#display-items").fadeIn();
       }
     });
@@ -209,7 +209,7 @@ function loadPage(linear) {
         window.casesChart = createGraph(casesctx, casesData, "Cases", "#ff9498");
         window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
         window.recoveredChart = createGraph(testedctx, testedData, "Recovered", "#4caf50");
-        fillTable(deathsData, testedData, casesData);
+        fillTable(deathsData, testedData, casesData, true);
         $("#display-items").fadeIn();
       }
     });
@@ -217,10 +217,18 @@ function loadPage(linear) {
 }
 
 
-function fillTable(cases, deaths, tested) {
+function fillTable(cases, deaths, tested, country) {
   $("#data-body").html("");
+  var growth = 0;
   for(let i=cases.length-1; i>=0; i--) {
-    $("#data-body").html($("#data-body").html() + "<tr><td>" + cases[i].x + "</td><td>" + tested[i].y + "</td><td>" + cases[i].y + "</td><td>" + deaths[i].y + "</td></tr>");
+    if(i != 0 && tested[i-1].y != 0) {
+      if(!country) growth = (cases[i].y/cases[i-1].y - 1) * 100;
+      else growth = (tested[i].y/tested[i-1].y - 1) * 100;
+      growth = Number.parseFloat(growth).toFixed(2);
+      $("#data-body").html($("#data-body").html() + "<tr><td>" + cases[i].x + "</td><td>" + tested[i].y + "</td><td>" + cases[i].y + "</td><td>" + deaths[i].y + "</td><td>" + growth + "%</td></tr>");
+    } else {
+      $("#data-body").html($("#data-body").html() + "<tr><td>" + cases[i].x + "</td><td>" + tested[i].y + "</td><td>" + cases[i].y + "</td><td>" + deaths[i].y + "</td></tr>");
+    }
   }
 }
 
