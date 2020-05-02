@@ -90,7 +90,7 @@
         bottom: 0px;
       }
 
-      #worlddown, #resourcedown {
+      #worlddown, #resourcedown, #toppage {
         color: #ff9498;
         transition: 0.3s transform;
       }
@@ -100,15 +100,20 @@
         transform: translateY(10px);
       }
 
+      #toppage:hover {
+        cursor: pointer;
+        transform: translateY(-10px);
+      }
+
       .section {
         min-height: 100vh;
+        text-align: center;
       }
       
       #worldmapbox {
-        text-align: center;
         margin-top: 20vh;
         position: relative;
-        padding-bottom: 5vh;
+        padding-bottom: 7vh;
       }
 
       #map {
@@ -124,10 +129,53 @@
         font-weight: bold;
       }
 
-      #worldmapbox > p {
+      #mapcredits {
         position: relative;
         bottom: 20px;
         color: gray;
+        height: 30px;
+      }
+
+      #mapcredits > p {
+        display: none;
+        position: absolute;
+        right: 5vw;
+      }
+
+      #resourcebox {
+        margin-top: 15vh;
+        position: relative;
+      }
+
+      .resourcelink {
+        font-size: 50px;
+        color: #518ded;
+      }
+
+      .resourcelink:hover {
+        font-weight: 500;
+      }
+
+      a.middle {
+          position: relative;
+      }
+
+      a.middle:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 4px;
+        bottom: 0;
+        left: 0;
+        background-color: #518ded;
+        visibility: hidden;
+        transform: scaleX(0);
+        transition: all 0.3s ease-in-out;
+      }
+
+      a.middle:hover:before {
+        visibility: visible;
+        transform: scaleX(1);
       }
       
       @media only screen and (max-width: 600px) {
@@ -154,6 +202,12 @@
         #title-container {
           margin-top: 5vh;
         }
+
+        .resourcelink {
+          font-size: 20px;
+          margin: 0px 5px;
+        }
+
       }
 
     </style>
@@ -162,7 +216,7 @@
 
   <body style="background-color: #3b3b3b;">
 
-    <div class="section">
+    <div class="section" id="frontpage">
       <div id="title-container" align="center">
         <h1 id="welcome-text">Welcome to</h1>
         <h1 id="title-text">COVID-19 GRAPHS</h1>
@@ -186,10 +240,23 @@
   marginheight="0" marginwidth="0" title="2019-nCoV" 
   src="//arcgis.com/apps/Embed/index.html?webmap=14aa9e5660cf42b5b4b546dec6ceec7c&extent=77.3846,11.535,163.5174,52.8632&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"
 ></iframe>
-      <p id="mapcredits">Taken from Johns Hopkins University</p>
+      <div id="mapcredits">
+        <p>Taken from Johns Hopkins University</p>
+      </div>
 
       <div class="down-box">
-        <a href="#worldmap"><i id="resourcedown" class="large material-icons" class="down-btn" style="color: var(--main-color)">keyboard_arrow_down</i></a>
+        <a href="#resources"><i id="resourcedown" class="large material-icons" class="down-btn" style="color: var(--main-color)">keyboard_arrow_down</i></a>
+      </div>
+    </div>
+
+    <div class="section" id="resourcebox">
+      <h1 class="header" id="resources">OTHER RESOURCES</h1>
+      <a class="resourcelink middle" href="https://my.castlighthealth.com/corona-virus-testing-sites/">Look up testing centers near you</a> <br>
+      <a class="resourcelink middle" href="https://coronavirus.jhu.edu/">Johns Hopkins Coronavirus Research Center</a> <br>
+      <a class="resourcelink middle" href="https://www.cdc.gov/coronavirus/2019-nCoV/index.html">Centers for Disease Control and Protection</a>
+      
+      <div class="down-box">
+        <a href="#frontpage"><i id="toppage" class="large material-icons" class="up-btn" style="color: var(--main-color)">keyboard_arrow_up</i></a>
       </div>
     </div>
 
@@ -224,6 +291,12 @@
             }
           } 
         }
+      });
+
+      $("#map").hover(() => {
+        $("#mapcredits").children().fadeIn();
+      }, () => {
+        $("#mapcredits").children().fadeOut();
       });
 
     </script>
