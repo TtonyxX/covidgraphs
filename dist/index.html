@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="search.css">
 
     <!--Let browser know website is optimized for mobile-->
@@ -22,6 +23,10 @@
 
     <style>
       @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
+
+      :root {
+        --main-color: #ff9498;
+      }
 
       /* label color */
       .input-field label {
@@ -52,7 +57,8 @@
       }
 
       html {
-        overflow-y: hidden;
+        scroll-behavior: smooth;
+        overflow-x: hidden;
       }
 
       #title-text {
@@ -68,12 +74,60 @@
       }
 
       #title-container {
-        color: #ff9498;
+        color: var(--main-color);
         margin-top: 20vh;
+        
       }
 
       #under-text {
         color: white;
+      }
+
+      .down-box {
+        width: 100vw;
+        position: absolute;
+        text-align: center;
+        bottom: 0px;
+      }
+
+      #worlddown, #resourcedown {
+        color: #ff9498;
+        transition: 0.3s transform;
+      }
+
+      #worlddown:hover, #resourcedown:hover {
+        cursor: pointer;
+        transform: translateY(10px);
+      }
+
+      .section {
+        min-height: 100vh;
+      }
+      
+      #worldmapbox {
+        text-align: center;
+        margin-top: 20vh;
+        position: relative;
+        padding-bottom: 5vh;
+      }
+
+      #map {
+        height: 75vh;
+        margin-top: 1vh;
+        width: 90vw;
+        border-radius: 10px;
+      }
+
+      .header {
+        font-family:'Lato';
+        color: var(--main-color);
+        font-weight: bold;
+      }
+
+      #worldmapbox > p {
+        position: relative;
+        bottom: 20px;
+        color: gray;
       }
       
       @media only screen and (max-width: 600px) {
@@ -108,15 +162,47 @@
 
   <body style="background-color: #3b3b3b;">
 
-    <div id="title-container" align="center">
-      <h1 id="welcome-text">Welcome to</h1>
-      <h1 id="title-text">COVID-19 GRAPHS</h1>
-      <h5 id="under-text">Start by searching for a country or state</h5>
-      <div id="search-input" class="input-field" autocomplete="off">
-        <input id="state" type="text" class="validate autocomplete" autocomplete="off" style="font-size: 30px; color: white; height: 50px;">
-        <label for="state" style="font-size: 20px;">Country/State</label>
+    <div class="section">
+      <div id="title-container" align="center">
+        <h1 id="welcome-text">Welcome to</h1>
+        <h1 id="title-text">COVID-19 GRAPHS</h1>
+        <h5 id="under-text">Start by searching for a country or state</h5>
+        <div id="search-input" class="input-field" autocomplete="off">
+          <input id="state" type="text" class="validate autocomplete" autocomplete="off" style="font-size: 30px; color: white; height: 50px;">
+          <label for="state" style="font-size: 20px;">Country/State</label>
+        </div>
+      </div>
+
+      <div class="down-box">
+        <a href="#worldmap"><i id="worlddown" class="large material-icons" class="down-btn" style="color: var(--main-color)">keyboard_arrow_down</i></a>
       </div>
     </div>
+
+    
+
+    <div class="section" id="worldmapbox">
+      <h1 class="header" id="worldmap">WORLD MAP</h1>
+      <iframe id="map" frameborder="0" scrolling="no" 
+  marginheight="0" marginwidth="0" title="2019-nCoV" 
+  src="//arcgis.com/apps/Embed/index.html?webmap=14aa9e5660cf42b5b4b546dec6ceec7c&extent=77.3846,11.535,163.5174,52.8632&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"
+></iframe>
+      <p id="mapcredits">Taken from Johns Hopkins University</p>
+
+      <div class="down-box">
+        <a href="#worldmap"><i id="resourcedown" class="large material-icons" class="down-btn" style="color: var(--main-color)">keyboard_arrow_down</i></a>
+      </div>
+    </div>
+
+    <footer class="grey darken-3" style="min-height: 40px; line-height: 40px;">
+      <div class="footer-copyright" style="text-align: center;">
+        <div class="container">
+        ©2020 Copyright
+        <a class="black-text" style="font-weight: bold;" href="http://tonyxin.com">Tony Xin</a>
+        </div>
+      </div>
+    </footer>
+
+
 
     <!--JavaScript at end of body for optimized loading-->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
