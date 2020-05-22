@@ -195,7 +195,8 @@ function loadPage(linear) {
         window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
         window.testedChart = createGraph(testedctx, testedData, "Tested", "#4fc3f7");
         fillTable(casesData, deathsData, testedData, false);
-        $("#display-items").fadeIn();
+        $("#loader").hide();
+        setTimeout(() => $("#display-items").fadeIn(), 200);
       }
     });
   } else {
@@ -210,7 +211,8 @@ function loadPage(linear) {
         window.deathsChart = createGraph(deathsctx, deathsData, "Deaths", "#bdbdbd");
         window.recoveredChart = createGraph(testedctx, testedData, "Recovered", "#4caf50");
         fillTable(deathsData, testedData, casesData, true);
-        $("#display-items").fadeIn();
+        $("#loader").hide();
+        setTimeout(() => $("#display-items").fadeIn(), 200);
       }
     });
   }
