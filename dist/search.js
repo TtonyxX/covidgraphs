@@ -239,7 +239,7 @@ $.ajax({
   url: "https://pomber.github.io/covid19/timeseries.json", 
   success: function(result){
     countries = Object.keys(result);
-    var countriesStates = countries.concat(states);
+    var countriesStates = countries //countries.concat(states);
     autocomplete(document.getElementById("state"), countriesStates);
   }
 });
